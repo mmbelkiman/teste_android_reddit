@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/bottomsheet"
+        android:background="@color/app_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.timeline.TimelineFragment">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/timeline_srl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:id="@+id/state_without_conn_timeline"
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/showing_offline_data" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/timeline_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:clipToPadding="false"
+                    android:divider="@color/transparent"
+                    android:listSelector="@android:color/transparent"
+                    android:scrollbars="none"
+                    android:visibility="gone"
+                    tools:listitem="@layout/item_timeline" />
+
+            <include
+                    android:id="@+id/state_progress_timeline"
+                    layout="@layout/include_state_progress_timeline" />
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
