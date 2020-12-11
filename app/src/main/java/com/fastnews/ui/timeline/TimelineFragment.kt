@@ -113,10 +113,18 @@ class TimelineFragment : Fragment() {
         viewModel.getPosts(postsLastAfterKey)
             .observe(viewLifecycleOwner, { posts ->
                 posts.let {
-                    adapter.addData(posts)
-                    timeline_srl.isRefreshing = false
-                    Toast.makeText(context, getString(R.string.toast_new_data), Toast.LENGTH_SHORT)
-                        .show()
+                    if (posts.size > 0 && timeline_srl.isRefreshing) {
+                        postsLastAfterKey = (posts[posts.size - 1]).name
+                        adapter.addData(posts)
+                        timeline_srl.isRefreshing = false
+                        Toast.makeText(
+                            context,
+                            getString(R.string.toast_new_data),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+
                 }
             })
     }
@@ -125,7 +133,7 @@ class TimelineFragment : Fragment() {
         viewModel.getPosts(postsLastAfterKey)
             .observe(viewLifecycleOwner, { posts ->
                 posts.let {
-                    if (posts.size > 0) {
+                    if (posts.size > 0 && postsLastAfterKey.isEmpty()) {
                         postsLastAfterKey = (posts[posts.size - 1]).name
                         adapter.setData(posts)
                         hideProgress()

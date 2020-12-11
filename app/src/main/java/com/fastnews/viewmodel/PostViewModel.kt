@@ -13,20 +13,20 @@ import com.fastnews.service.model.PostData
  */
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     //region Fields
-    private val posts: MutableLiveData<MutableList<PostData>> by lazy {
-        MutableLiveData<MutableList<PostData>>()
-    }
     private val limit = 25
+    private lateinit var posts: MutableLiveData<MutableList<PostData>>
 //endregion
 
     //region GET
     fun getPosts(after: String): LiveData<MutableList<PostData>> {
+        posts = MutableLiveData()
+
         Coroutines.ioThenMain({
             PostRepository.getPosts(after, limit)
         }) {
-            this.posts.postValue(it.orEmpty() as MutableList<PostData>?)
+            posts.postValue(it.orEmpty() as MutableList<PostData>?)
         }
-        return this.posts
+        return posts
     }
 //endregion
 }

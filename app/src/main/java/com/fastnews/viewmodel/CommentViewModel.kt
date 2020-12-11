@@ -12,19 +12,18 @@ import com.fastnews.service.model.CommentData
  */
 class CommentViewModel : ViewModel() {
     //region Fields
-    private val comments: MutableLiveData<List<CommentData>> by lazy {
-        MutableLiveData<List<CommentData>>()
-    }
+    private lateinit var comments: MutableLiveData<List<CommentData>>
 //endregion
 
     //region GET
     fun getComments(postId: String): LiveData<List<CommentData>> {
+        comments = MutableLiveData()
         Coroutines.ioThenMain({
             CommentRepository.getComments(postId)
         }) {
-            this.comments.postValue(it)
+            comments.postValue(it.orEmpty() as MutableList<CommentData>?)
         }
-        return this.comments
+        return comments
     }
 //endregion
 }
